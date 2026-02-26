@@ -1,0 +1,25 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfplan
+crash.log
+key.json
+.terraform.lock.hcl
+
+# Ansible
+inventory/
+*.retry
+host_vars/
+group_vars/
+
+# VS Code
+.vscode/
+
+# Остальное
+bloknot.txt
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
