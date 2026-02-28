@@ -3,6 +3,30 @@
   hosts: runner
   become: yes
   tasks:
+    - name: Удалить старые репозитории и ключи Docker
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/apt/sources.list.d/docker.list
+        - /etc/apt/sources.list.d/docker.sources
+        - /etc/apt/keyrings/docker.asc
+        - /etc/apt/keyrings/docker.gpg
+
+    - name: Remove old Docker packages (if any)
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - docker-compose-v2
+          - docker-doc
+          - podman-docker
+          - containerd
+          - runc
+        state: absent
+        autoremove: yes
+        purge: yes
+
     - name: Update apt cache
       apt:
         update_cache: yes
@@ -12,8 +36,6 @@
         name:
           - ca-certificates
           - curl
-          - gnupg
-          - lsb-release
         state: present
 
     - name: Create directory for Docker GPG key
@@ -22,18 +44,22 @@
         state: directory
         mode: '0755'
 
-    - name: Download Docker GPG key
+    - name: Download Docker's official GPG key
       get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
-        dest: /etc/apt/keyrings/docker.gpg
+        dest: /etc/apt/keyrings/docker.asc
         mode: '0644'
 
-    - name: Add Docker repository
-      shell: |
-        . /etc/os-release
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-      args:
-        creates: /etc/apt/sources.list.d/docker.list
+    - name: Add Docker repository using .sources format
+      copy:
+        content: |
+          Types: deb
+          URIs: https://download.docker.com/linux/ubuntu
+          Suites: {{ ansible_distribution_release }}
+          Components: stable
+          Signed-By: /etc/apt/keyrings/docker.asc
+        dest: /etc/apt/sources.list.d/docker.sources
+        mode: '0644'
 
     - name: Update apt cache after adding Docker repo
       apt:
@@ -60,7 +86,3 @@
         name: docker
         state: started
         enabled: yes
-
-    - name: Reboot the machine
-      reboot:
-        reboot_timeout: 300
