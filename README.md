@@ -24,8 +24,17 @@
 
 
 ### Скриншоты
-#### 1. Runner
-![Runner](img/runner.png)
+#### 1. Зарегистрировали репозиторий на gitlab
+
+![gitlab-repo](img/01gitlab-08-03.png)
+
+#### 2. Запустили докер на runner
+
+![dockerrunner](02hw-08-03.png)
+
+#### 3. Подключили runner к gitlab
+
+![runner](03hw08-03.png)
 
 
 ---
@@ -44,58 +53,45 @@
 
 
 ---
-1. Запушили репозиторий на GitLab, remote `my_gitlab_lesson`
+
+1. Запушили репозиторий на GitLab, remote `/data/DevOps_Universe/Netology/CI-DI/8-03-hw/project`
 2. Создали .gitlab-ci.yml
 
-
-
-### Скриншоты
-#### 1. Project
-![Project](img/my_project_lesson.png)
-#### 2. Успешная сборка
-![Успешная сборка](img/gitlab_success.png)
-
-
----
-
-### Задание 3*
-
-Измените CI так, чтобы:
-
- - этап сборки запускался сразу, не дожидаясь результатов тестов;
- - тесты запускались только при изменении файлов с расширением *.go.
-
-В качестве ответа добавьте в шаблон с решением файл gitlab-ci.yml своего проекта или вставьте код в соответсвующее поле в шаблоне.
-
-
----
-1. Изменили .gitlab-ci.yml
-```bash
+```yml
 stages:
-  - build
   - test
+  - build
 
 test:
   stage: test
   image: golang:1.17
-  script:
-    - go test .
+  script: 
+   - go test .
   tags:
-    - netology
-  only:
-    changes:
-      - "*.go"
-
+    - hw-08-03
+    
 build:
   stage: build
   image: docker:latest
   script:
-    - docker build .
+   - docker build .
   tags:
-    - netology
+    - hw-08-03
+    
 ```
-2. #### Change CI
-![Change CI](img/change_ci1.png)
 
-3. #### Change go
-![Change go](img/change_go1.png)
+
+
+### Скриншоты
+#### 1. project
+
+![project](img/04hw-08.03.png)
+
+
+#### 2. Успешная сборка
+
+![Успешная сборка](05hw-08-03.png)
+
+
+---
+
