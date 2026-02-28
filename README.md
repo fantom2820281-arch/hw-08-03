@@ -1,8 +1,41 @@
 # Домашнее задание к занятию "GitLab" - Герасин Д.С.
 
 
-
+  28.02.2026
+  модуль CI/DI
+  
 ---
+## Структура выполненной работы
+
+```bash 
+├── ansible  # устанавливает докер на runner
+│   ├── ansible.cfg
+│   └── playbook.yml
+├── bloknot.txt
+├── img    # скриншоты в процессе выполнения
+│   ├── 01gitlab-08-03.png
+│   ├── 02hw-08-03.png
+│   ├── 03hw08-03.png
+│   ├── 04hw-08.03.png
+│   └── 05hw-08-03.png
+├── project  # пушим на gitlab простой путь скопировать в /tmp 
+│   ├── Dockerfile
+│   ├── go.mod
+│   ├── main.go
+│   └── main_test.go
+├── README.md
+└── terraform  # создает две машины в облаке
+    ├── cloud-init.yml
+    ├── key.json
+    ├── network.tf
+    ├── providers.tf
+    ├── terraform.tfstate
+    ├── terraform.tfstate.backup
+    ├── variables.tf
+    └── vm.tf
+
+```
+
 
 ### Задание 1
 
@@ -30,11 +63,11 @@
 
 #### 2. Запустили докер на runner
 
-![dockerrunner](02hw-08-03.png)
+![dockerrunner](img/02hw-08-03.png)
 
 #### 3. Подключили runner к gitlab
 
-![runner](03hw08-03.png)
+![runner](img/03hw08-03.png)
 
 
 ---
@@ -90,7 +123,7 @@ build:
 
 #### 2. Успешная сборка
 
-![Успешная сборка](05hw-08-03.png)
+![Успешная сборка](img/05hw-08-03.png)
 
 
 ---
