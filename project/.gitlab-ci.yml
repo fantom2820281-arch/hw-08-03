@@ -7,9 +7,14 @@ test:
   image: golang:1.17
   script: 
    - go test .
-
+  tags:
+    - hw-08-03
+    
 build:
   stage: build
   image: docker:latest
   script:
    - docker build .
+  tags:
+    - hw-08-03
+    
